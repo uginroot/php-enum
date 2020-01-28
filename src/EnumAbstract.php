@@ -12,13 +12,13 @@ use Uginroot\PhpEnum\Exception\DuplicateValueException;
 abstract class EnumAbstract implements EnumInterface
 {
     /** @var array[] */
-    protected static $names = [];
+    protected static $namesCache = [];
 
     /** @var array[] */
-    protected static $values = [];
+    protected static $valuesCache = [];
 
     /** @var array[] */
-    protected static $instances = [];
+    protected static $instancesCache = [];
 
     /** @var string */
     protected $name;
@@ -58,7 +58,7 @@ abstract class EnumAbstract implements EnumInterface
     public static function getNames(): array
     {
         static::init();
-        return static::$names[static::class];
+        return static::$namesCache[static::class];
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class EnumAbstract implements EnumInterface
     public static function getValues(): array
     {
         static::init();
-        return static::$values[static::class];
+        return static::$valuesCache[static::class];
     }
 
     /**
@@ -76,29 +76,29 @@ abstract class EnumAbstract implements EnumInterface
     public static function getInstances():array
     {
         static::init();
-        return static::$instances[static::class];
+        return static::$instancesCache[static::class];
     }
 
     protected static function declareValue(string $name, int $value): void
     {
-        if (in_array($value, static::$values[static::class])) {
+        if (in_array($value, static::$valuesCache[static::class])) {
             throw new DuplicateValueException("Duplicate value '{$value}'");
         }
 
-        static::$names[static::class][$value]     = $name;
-        static::$values[static::class][$name]     = $value;
-        static::$instances[static::class][$value] = new static($value);
+        static::$namesCache[static::class][$value] = $name;
+        static::$valuesCache[static::class][$name] = $value;
+        static::$instancesCache[static::class][$value]  = new static($value);
     }
 
     protected static function init():void
     {
-        if (array_key_exists(static::class, static::$instances)) {
+        if (array_key_exists(static::class, static::$instancesCache)) {
             return;
         }
 
-        static::$names[static::class]     = [];
-        static::$values[static::class]    = [];
-        static::$instances[static::class] = [];
+        static::$namesCache[static::class]  = [];
+        static::$valuesCache[static::class] = [];
+        static::$instancesCache[static::class]   = [];
 
         $class = new ReflectionClass(static::class);
 
