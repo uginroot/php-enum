@@ -1,0 +1,30 @@
+{
+  "name": "uginroot/php-enum",
+  "description": "Php enum type",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "keywords": ["php", "enum"],
+  "authors": [
+    {
+      "name": "Soroka Anton",
+      "email": "uginroot@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Uginroot\\PhpEnum\\": "./src",
+      "Uginroot\\PhpEnum\\Test\\": "./test"
+    }
+  },
+  "require": {
+    "php": "^7.1.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "8"
+  },
+  "scripts": {
+    "test" : [
+      "\"./vendor/bin/phpunit.bat\" --bootstrap \"./vendor/autoload.php\" --testdox \"./test\""
+    ]
+  }
+}
