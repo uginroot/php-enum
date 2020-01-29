@@ -3,7 +3,7 @@
   "description": "Php enum type",
   "minimum-stability": "dev",
   "license": "MIT",
-  "keywords": ["php", "enum"],
+  "keywords": ["php", "type", "enum"],
   "authors": [
     {
       "name": "Soroka Anton",
