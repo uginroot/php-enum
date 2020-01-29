@@ -37,7 +37,6 @@ Month::getNames();  // [1 => 'January', 2 => 'February']
 
 # Exceptions
 ```php
-use TypeError;
 use Uginroot\PhpEnum\EnumAbstract;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
@@ -60,16 +59,6 @@ try{ BadEnumDuplicate::createByName('one'); } catch (DuplicateValueException $e)
 try{ BadEnumDuplicate::getNames();          } catch (DuplicateValueException $e){}
 try{ BadEnumDuplicate::getValues();         } catch (DuplicateValueException $e){}
 try{ BadEnumDuplicate::getInstances();      } catch (DuplicateValueException $e){}
-
-
-class BadEnumString extends EnumAbstract{
-    const one = 'one'; // String constant
-}
-try{ BadEnumString::createByValue('one'); } catch (TypeError $e){}
-try{ BadEnumString::createByName('one');  } catch (TypeError $e){}
-try{ BadEnumString::getNames();           } catch (TypeError $e){}
-try{ BadEnumString::getValues();          } catch (TypeError $e){}
-try{ BadEnumString::getInstances();       } catch (TypeError $e){}
 
 ```
 
