@@ -8,7 +8,10 @@ interface EnumInterface
 {
     public function getName():string;
 
-    public function getValue():int;
+    /**
+     * @return mixed
+     */
+    public function getValue();
 
     public function isEqual(self $enum):bool;
 }
