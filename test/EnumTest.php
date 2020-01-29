@@ -1,11 +1,10 @@
-<?php /** @noinspection PhpUnused */
+<?php
 
 declare(strict_types=1);
 
 namespace Uginroot\PhpEnum\Test;
 
 use PHPUnit\Framework\TestCase;
-use TypeError;
 use Uginroot\PhpEnum\EnumAbstract;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
@@ -23,10 +22,6 @@ class EnumTwo extends EnumAbstract{
 class EnumBadDuplicate extends EnumAbstract{
     const one = 1;
     const two = 1;
-}
-
-class EnumBadString extends EnumAbstract{
-    const One = 'one';
 }
 
 class EnumTest extends TestCase
@@ -67,21 +62,13 @@ class EnumTest extends TestCase
 
     public function testNames()
     {
-        $expected = [
-            1 => 'one',
-            2 => 'two',
-        ];
-
+        $expected = ['one', 'two'];
         $this->assertSame($expected, EnumTwo::getNames());
     }
 
     public function testValues()
     {
-        $expected = [
-            'one' => 1,
-            'two' => 2,
-        ];
-
+        $expected = [1, 2];
         $this->assertSame($expected, EnumTwo::getValues());
     }
 
@@ -106,11 +93,5 @@ class EnumTest extends TestCase
         /** @noinspection PhpNonStrictObjectEqualityInspection */
         $this->assertFalse($oneByValue == $oneByTwo);
         $this->assertFalse($oneByValue === $oneByTwo);
-    }
-
-    public function testNotIntegerConstant()
-    {
-        $this->expectException(TypeError::class);
-        EnumBadString::createByName('One');
     }
 }
