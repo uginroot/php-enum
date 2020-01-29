@@ -30,8 +30,8 @@ $monthByValue === $monthOther; // false
 
 $string = (string)$monthByValue; // 'January'
 
-Month::getValues(); // ['January' => 1, 'February' => 2]
-Month::getNames();  // [1 => 'January', 2 => 'February']
+Month::getValues(); // [1, 2]
+Month::getNames();  // ['January', 'February']
 
 ```
 
