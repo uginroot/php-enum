@@ -11,26 +11,15 @@ use Uginroot\PhpEnum\Exception\DuplicateValueException;
 
 abstract class EnumAbstract implements EnumInterface
 {
-    /** @var array[] */
-    protected static $namesCache = [];
+    protected static array $instancesCache = [];
 
-    /** @var array[] */
-    protected static $valuesCache = [];
+    protected string $name;
 
-    /** @var array[] */
-    protected static $instancesCache = [];
-
-    /** @var string */
-    protected $name;
-
-    /** @var int */
+    /** @var mixed */
     protected $value;
 
-    private final function __construct(int $value)
-    {
-        $this->value = $value;
-        $this->name  = static::getNames()[$value];
-    }
+
+    private final function __construct(){}
 
     public function __toString()
     {
@@ -42,7 +31,10 @@ abstract class EnumAbstract implements EnumInterface
         return $this->name;
     }
 
-    public function getValue(): int
+    /**
+     * @return mixed
+     */
+    public function getValue()
     {
         return $this->value;
     }
@@ -53,41 +45,28 @@ abstract class EnumAbstract implements EnumInterface
     }
 
     /**
-     * @return string[]
+     * @return array|string[]
      */
-    public static function getNames(): array
+    public static function getNames()
     {
-        static::init();
-        return static::$namesCache[static::class];
+        return array_map(fn(self $enum) => $enum->getName(),static::getInstances());
     }
 
     /**
-     * @return integer[]
+     * @return array|mixed[]
      */
-    public static function getValues(): array
+    public static function getValues()
     {
-        static::init();
-        return static::$valuesCache[static::class];
+        return array_map(fn(self $enum) => $enum->getValue(),static::getInstances());
     }
 
     /**
-     * @return static[]
+     * @return array|static[]
      */
     public static function getInstances():array
     {
         static::init();
         return static::$instancesCache[static::class];
-    }
-
-    protected static function declareValue(string $name, int $value): void
-    {
-        if (in_array($value, static::$valuesCache[static::class])) {
-            throw new DuplicateValueException("Duplicate value '{$value}'");
-        }
-
-        static::$namesCache[static::class][$value] = $name;
-        static::$valuesCache[static::class][$name] = $value;
-        static::$instancesCache[static::class][$value]  = new static($value);
     }
 
     protected static function init():void
@@ -96,30 +75,42 @@ abstract class EnumAbstract implements EnumInterface
             return;
         }
 
-        static::$namesCache[static::class]  = [];
-        static::$valuesCache[static::class] = [];
-        static::$instancesCache[static::class]   = [];
+        $values = [];
+        $instances = [];
 
         $class = new ReflectionClass(static::class);
 
         foreach ($class->getReflectionConstants() as $constant) {
-            static::declareValue(
-                $constant->getName(),
-                $constant->getValue()
-            );
+            $value = $constant->getValue();
+
+            if(in_array($value, $values, true)){
+                throw new DuplicateValueException("Duplicate value '$value' in class {$class->getName()}");
+            }
+
+            $name = $constant->getName();
+            $instance = new static();
+            $instance->value = $value;
+            $instance->name = $name;
+
+            $values[] = $value;
+            $instances[] = $instance;
         }
+
+        static::$instancesCache[static::class] = $instances;
     }
 
     /**
-     * @param int $value
+     * @param mixed $value
      * @return static
      */
-    public static function createByValue(int $value)
+    public static function createByValue($value)
     {
-        if (!in_array($value, static::getValues(), true)) {
-            throw new IncorrectValueException("Incorrect value '{$value}'");
+        foreach (static::getInstances() as $enum){
+            if($enum->getValue() === $value){
+                return $enum;
+            }
         }
-        return static::getInstances()[$value];
+        throw new IncorrectValueException("Incorrect value '{$value}'");
     }
 
     /**
@@ -128,11 +119,12 @@ abstract class EnumAbstract implements EnumInterface
      */
     public static function createByName(string $name)
     {
-        if (!array_key_exists($name, static::getValues())) {
-            throw new IncorrectNameException("Incorrect name '{$name}'");
+        foreach (static::getInstances() as $enum){
+            if($enum->getName() === $name){
+                return $enum;
+            }
         }
-
-        return static::getInstances()[static::getValues()[$name]];
+        throw new IncorrectNameException("Incorrect name '{$name}'");
     }
 
     private final function __clone(){}
