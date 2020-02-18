@@ -12,9 +12,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Uginroot\\PhpEnum\\": "./src",
-      "Uginroot\\PhpEnum\\Test\\": "./test"
+      "Uginroot\\PhpEnum\\": "./src"
     }
+  },
+  "autoload-dev": {
+    "Uginroot\\PhpEnum\\Test\\": "./test"
   },
   "require": {
     "php": "^7.4"
