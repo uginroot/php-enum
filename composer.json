@@ -1,7 +1,6 @@
 {
   "name": "uginroot/php-enum",
   "description": "Php enum type",
-  "minimum-stability": "dev",
   "license": "MIT",
   "keywords": ["php", "type", "enum"],
   "authors": [
