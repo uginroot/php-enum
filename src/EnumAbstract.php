@@ -28,11 +28,17 @@ abstract class EnumAbstract
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
@@ -46,17 +52,29 @@ abstract class EnumAbstract
         return $this->value;
     }
 
-    public function is($value): bool
+    /**
+     * @param self $value
+     * @return bool
+     */
+    public function is(self $value): bool
     {
         return $value instanceof static && $value->getValue() === $this->getValue();
     }
 
+    /**
+     * @param mixed $value
+     * @return bool
+     */
     public function isValue($value): bool
     {
         return $value === $this->getValue();
     }
 
-    public function isName($name): bool
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isName(string $name): bool
     {
         return $name === $this->getName();
     }
