@@ -18,6 +18,56 @@ abstract class EnumAbstract
     private $value;
 
     /**
+     * @return EnumConstantsCache
+     */
+    public static function getCache():EnumConstantsCache
+    {
+        if(self::$cache === null){
+            self::$cache = new EnumConstantsCache();
+        }
+
+        return self::$cache;
+    }
+
+    /**
+     * @return array|string[]
+     * @throws ReflectionException
+     */
+    public static function getNames():array
+    {
+        return self::getCache()->getNames(static::class);
+    }
+
+    /**
+     * @return array|mixed[]
+     * @throws ReflectionException
+     */
+    public static function getValues():array
+    {
+        return self::getCache()->getValues(static::class);
+    }
+
+    /**
+     * @param mixed $value
+     * @return static
+     * @throws ReflectionException
+     */
+    public static function createByValue($value):self
+    {
+        return new static($value);
+    }
+
+    /**
+     * @param string $name
+     * @return static
+     * @throws ReflectionException
+     */
+    public static function createByName(string $name): self
+    {
+        return new static(self::getCache()->getValue(static::class, $name));
+    }
+
+    /**
      * EnumAbstract constructor.
      * @param $value
      * @throws ReflectionException
@@ -77,56 +127,6 @@ abstract class EnumAbstract
     public function isName(string $name): bool
     {
         return $name === $this->getName();
-    }
-
-    /**
-     * @return array|string[]
-     * @throws ReflectionException
-     */
-    public static function getNames():array
-    {
-        return self::getCache()->getNames(static::class);
-    }
-
-    /**
-     * @return array|mixed[]
-     * @throws ReflectionException
-     */
-    public static function getValues():array
-    {
-        return self::getCache()->getValues(static::class);
-    }
-
-    /**
-     * @return EnumConstantsCache
-     */
-    public static function getCache():EnumConstantsCache
-    {
-        if(self::$cache === null){
-            self::$cache = new EnumConstantsCache();
-        }
-
-        return self::$cache;
-    }
-
-    /**
-     * @param mixed $value
-     * @return static
-     * @throws ReflectionException
-     */
-    public static function createByValue($value):self
-    {
-        return new static($value);
-    }
-
-    /**
-     * @param string $name
-     * @return static
-     * @throws ReflectionException
-     */
-    public static function createByName(string $name): self
-    {
-        return new static(self::getCache()->getValue(static::class, $name));
     }
 
     /**
