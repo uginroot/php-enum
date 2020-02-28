@@ -5,93 +5,107 @@ declare(strict_types=1);
 namespace Uginroot\PhpEnum\Test;
 
 use PHPUnit\Framework\TestCase;
-use Uginroot\PhpEnum\EnumAbstract;
+use ReflectionException;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
 use Uginroot\PhpEnum\Exception\DuplicateValueException;
+use Uginroot\PhpEnum\Test\Enum\Duplicate;
+use Uginroot\PhpEnum\Test\Enum\One;
+use Uginroot\PhpEnum\Test\Enum\Two;
 
-class EnumOne extends EnumAbstract{
-    const one = 1;
-}
-
-class EnumTwo extends EnumAbstract{
-    const one = 1;
-    const two = 2;
-}
-
-class EnumBadDuplicate extends EnumAbstract{
-    const one = 1;
-    const two = 1;
-}
 
 class EnumTest extends TestCase
 {
-    public function testIncorrectValue()
+    /**
+     * @throws ReflectionException
+     */
+    public function testIncorrectValue():void
     {
         $this->expectException(IncorrectValueException::class);
-        EnumOne::createByValue(2);
+        One::createByValue(2);
     }
 
-    public function testIncorrectName()
+    /**
+     * @throws ReflectionException
+     */
+    public function testIncorrectName():void
     {
         $this->expectException(IncorrectNameException::class);
-        EnumOne::createByName('two');
+        One::createByName('two');
     }
 
-    public function testRedeclareValue()
+    /**
+     * @throws ReflectionException
+     */
+    public function testRedeclareValue():void
     {
         $this->expectException(DuplicateValueException::class);
-        EnumBadDuplicate::getNames();
+        Duplicate::getNames();
     }
 
-    public function testCreateByValue()
+    /**
+     * @throws ReflectionException
+     */
+    public function testCreateByValue():void
     {
-        $enum = EnumOne::createByValue(EnumOne::one);
+        $enum = One::createByValue(One::one);
 
         $this->assertSame(1, $enum->getValue());
         $this->assertSame('one', $enum->getName());
     }
 
-    public function testCreateByName()
+    /**
+     * @throws ReflectionException
+     */
+    public function testCreateByName():void
     {
-        $enum = EnumOne::createByName('one');
+        $enum = One::createByName('one');
 
         $this->assertSame(1, $enum->getValue());
         $this->assertSame('one', $enum->getName());
     }
 
-    public function testNames()
+    /**
+     * @throws ReflectionException
+     */
+    public function testNames():void
     {
         $expected = ['one', 'two'];
-        $this->assertSame($expected, EnumTwo::getNames());
+        $this->assertSame($expected, Two::getNames());
     }
 
-    public function testValues()
+    /**
+     * @throws ReflectionException
+     */
+    public function testValues():void
     {
         $expected = [1, 2];
-        $this->assertSame($expected, EnumTwo::getValues());
+        $this->assertSame($expected, Two::getValues());
     }
 
-    public function testToString()
+    /**
+     * @throws ReflectionException
+     */
+    public function testToString():void
     {
-        $this->assertSame('one', (string)EnumOne::createByValue(EnumOne::one));
+        $this->assertSame('one', (string)One::createByValue(One::one));
     }
 
-    public function testIsEqual()
+    /**
+     * @throws ReflectionException
+     */
+    public function testIsEqual():void
     {
-        $oneByValue = EnumOne::createByValue(EnumTwo::one);
-        $oneByName = EnumOne::createByName('one');
-        $oneByTwo = EnumTwo::createByValue(EnumOne::one);
+        $one = new One(One::one);
+        $oneDuplicate = new One(One::one);
+        $two = new Two(Two::two);
 
+        $this->assertTrue($one->is($oneDuplicate));
+        $this->assertTrue($one->isName('one'));
+        $this->assertTrue($one->isValue(One::one));
 
-        /** @noinspection PhpNonStrictObjectEqualityInspection */
-        $this->assertTrue($oneByValue == $oneByName);
-        $this->assertTrue($oneByValue === $oneByName);
-        $this->assertTrue($oneByValue->isEqual($oneByName));
-
-        $this->assertFalse($oneByValue->isEqual($oneByTwo));
-        /** @noinspection PhpNonStrictObjectEqualityInspection */
-        $this->assertFalse($oneByValue == $oneByTwo);
-        $this->assertFalse($oneByValue === $oneByTwo);
+        $this->assertFalse($one->is($two));
+        $this->assertFalse($one->isName('twp'));
+        $this->assertFalse($one->isValue(Two::two));
     }
 }
