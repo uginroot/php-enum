@@ -33,7 +33,7 @@ abstract class EnumAbstract
      * @return array|string[]
      * @throws ReflectionException
      */
-    public static function getNames():array
+    public static function getChoicesName():array
     {
         return self::getCache()->getNames(static::class);
     }
@@ -42,9 +42,29 @@ abstract class EnumAbstract
      * @return array|mixed[]
      * @throws ReflectionException
      */
-    public static function getValues():array
+    public static function getChoicesValue():array
     {
         return self::getCache()->getValues(static::class);
+    }
+
+    /**
+     * @param $value
+     * @return string
+     * @throws ReflectionException
+     */
+    public static function getChoiceName($value):string
+    {
+        return self::getCache()->getName(static::class, $value);
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public static function getChoiceValue(string $name)
+    {
+        return self::getCache()->getValue(static::class, $name);
     }
 
     /**

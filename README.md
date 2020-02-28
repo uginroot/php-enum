@@ -29,8 +29,10 @@ $jun->setValue(Month::February); // new Month(Month::February)
 $jun->setName('February'); // Month::createByName('February')
 
 // Name and value variants
-Month::getValues(); // [1, 2]
-Month::getNames();  // ['January', 'February']
+Month::getChoicesValue(); // [1, 2]
+Month::getChoicesName();  // ['January', 'February']
+Month::getChoiceValue('January'); // 1
+Month::getChoiceValue(Month::January); // 'January'
 
 ```
 
