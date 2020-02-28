@@ -20,7 +20,7 @@ abstract class EnumAbstract
     /**
      * @return EnumConstantsCache
      */
-    public static function getCache():EnumConstantsCache
+    private static function getCache():EnumConstantsCache
     {
         if(self::$cache === null){
             self::$cache = new EnumConstantsCache();
