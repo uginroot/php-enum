@@ -8,8 +8,8 @@ use ReflectionException;
 
 abstract class EnumAbstract
 {
-    /** @var EnumConstantsCache|null */
-    private static ?EnumConstantsCache $cache = null;
+    /** @var ChoiceCache|null */
+    private static ?ChoiceCache $choiceCache = null;
 
     /** @var string */
     private string $name;
@@ -18,53 +18,16 @@ abstract class EnumAbstract
     private $value;
 
     /**
-     * @return EnumConstantsCache
+     * @return Choice
+     * @throws ReflectionException
      */
-    private static function getCache():EnumConstantsCache
+    public static function getChoices():Choice
     {
-        if(self::$cache === null){
-            self::$cache = new EnumConstantsCache();
+        if(self::$choiceCache === null){
+            self::$choiceCache = new ChoiceCache();
         }
 
-        return self::$cache;
-    }
-
-    /**
-     * @return array|string[]
-     * @throws ReflectionException
-     */
-    public static function getChoicesName():array
-    {
-        return self::getCache()->getNames(static::class);
-    }
-
-    /**
-     * @return array|mixed[]
-     * @throws ReflectionException
-     */
-    public static function getChoicesValue():array
-    {
-        return self::getCache()->getValues(static::class);
-    }
-
-    /**
-     * @param $value
-     * @return string
-     * @throws ReflectionException
-     */
-    public static function getChoiceName($value):string
-    {
-        return self::getCache()->getName(static::class, $value);
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     * @throws ReflectionException
-     */
-    public static function getChoiceValue(string $name)
-    {
-        return self::getCache()->getValue(static::class, $name);
+        return self::$choiceCache->getChoice(static::class);
     }
 
     /**
@@ -84,7 +47,7 @@ abstract class EnumAbstract
      */
     public static function createByName(string $name): self
     {
-        return new static(self::getCache()->getValue(static::class, $name));
+        return new static(static::getChoices()->getValue($name));
     }
 
     /**
@@ -94,7 +57,7 @@ abstract class EnumAbstract
      */
     public function __construct($value)
     {
-        $this->name = self::getCache()->getName(static::class, $value);
+        $this->name = static::getChoices()->getName($value);
         $this->value = $value;
     }
 

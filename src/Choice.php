@@ -10,7 +10,7 @@ use Uginroot\PhpEnum\Exception\DuplicateValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
 
-class EnumConstants
+class Choice
 {
     /**
      * @var string
