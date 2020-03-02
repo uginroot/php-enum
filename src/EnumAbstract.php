@@ -21,7 +21,7 @@ abstract class EnumAbstract
      * @return Choice
      * @throws ReflectionException
      */
-    public static function getChoices():Choice
+    public static function getChoice():Choice
     {
         if(self::$choiceCache === null){
             self::$choiceCache = new ChoiceCache();
@@ -47,7 +47,7 @@ abstract class EnumAbstract
      */
     public static function createByName(string $name): self
     {
-        return new static(static::getChoices()->getValue($name));
+        return new static(static::getChoice()->getValue($name));
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class EnumAbstract
      */
     public function __construct($value)
     {
-        $this->name = static::getChoices()->getName($value);
+        $this->name = static::getChoice()->getName($value);
         $this->value = $value;
     }
 

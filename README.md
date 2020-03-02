@@ -1,6 +1,6 @@
 # Install
 ```bash
-composer require uginroot/php-enum:^2.0
+composer require uginroot/php-enum:^2.1
 ```
 # Using
 ```php
@@ -29,10 +29,11 @@ $jun->setValue(Month::February); // new Month(Month::February)
 $jun->setName('February'); // Month::createByName('February')
 
 // Name and value variants
-Month::getChoicesValue(); // [1, 2]
-Month::getChoicesName();  // ['January', 'February']
-Month::getChoiceValue('January'); // 1
-Month::getChoiceValue(Month::January); // 'January'
+$choice = Month::getChoice();
+$choice->getValues(); // [1, 2]
+$choice->getNames();  // ['January', 'February']
+$choice->getValue('January'); // 1
+$choice->getName(Month::January); // 'January'
 
 ```
 
