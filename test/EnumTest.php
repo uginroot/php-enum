@@ -40,7 +40,7 @@ class EnumTest extends TestCase
     public function testRedeclareValue():void
     {
         $this->expectException(DuplicateValueException::class);
-        Duplicate::getChoicesName();
+        Duplicate::getChoices()->getNames();
     }
 
     /**
@@ -71,7 +71,7 @@ class EnumTest extends TestCase
     public function testChoicesName():void
     {
         $expected = ['one', 'two'];
-        $this->assertSame($expected, Two::getChoicesName());
+        $this->assertSame($expected, Two::getChoices()->getNames());
     }
 
     /**
@@ -80,7 +80,7 @@ class EnumTest extends TestCase
     public function testChoicesValue():void
     {
         $expected = [1, 2];
-        $this->assertSame($expected, Two::getChoicesValue());
+        $this->assertSame($expected, Two::getChoices()->getValues());
     }
 
     /**
@@ -88,7 +88,7 @@ class EnumTest extends TestCase
      */
     public function testChoiceName():void
     {
-        $this->assertSame('one', One::getChoiceName(One::one));
+        $this->assertSame('one', One::getChoices()->getName(One::one));
     }
 
     /**
@@ -96,7 +96,7 @@ class EnumTest extends TestCase
      */
     public function testChoiceValue():void
     {
-        $this->assertSame(One::one, One::getChoiceValue('one'));
+        $this->assertSame(One::one, One::getChoices()->getValue('one'));
     }
 
     /**
