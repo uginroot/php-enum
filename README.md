@@ -2,7 +2,7 @@
 
 ## Install
 ```bash
-composer require uginroot/php-enum:^2.1
+composer require uginroot/php-enum:^2.2
 ```
 
 ## Using
