@@ -1,8 +1,11 @@
-# Install
+# Php enum type
+
+## Install
 ```bash
 composer require uginroot/php-enum:^2.1
 ```
-# Using
+
+## Using
 ```php
 use Uginroot\PhpEnum\Choice;
 use Uginroot\PhpEnum\EnumAbstract;
@@ -38,10 +41,4 @@ $choice->getValue('January'); // 1
 $choice->getName(Month::January); // 'January'
 $choice->isValidName('January'); // true
 $choice->isValidValue(Month::January); // true
-
-```
-
-#### Run tests
-```bash
->composer test
 ```
