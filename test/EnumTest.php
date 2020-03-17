@@ -124,4 +124,22 @@ class EnumTest extends TestCase
         $this->assertFalse($one->isName('twp'));
         $this->assertFalse($one->isValue(Two::two));
     }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testIsValidName():void
+    {
+        $this->assertTrue(One::getChoice()->isValidName('one'));
+        $this->assertFalse(One::getChoice()->isValidName('two'));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testIsValidValue():void
+    {
+        $this->assertTrue(One::getChoice()->isValidValue(One::one));
+        $this->assertFalse(One::getChoice()->isValidValue(Two::two));
+    }
 }
