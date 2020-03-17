@@ -96,4 +96,22 @@ class Choice
 
         return $this->values[$index];
     }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isValidName(string $name):bool
+    {
+        return in_array($name, $this->names, true);
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function isValidValue($value):bool
+    {
+        return in_array($value, $this->values, true);
+    }
 }

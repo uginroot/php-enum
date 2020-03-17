@@ -34,6 +34,8 @@ $choice->getValues(); // [1, 2]
 $choice->getNames();  // ['January', 'February']
 $choice->getValue('January'); // 1
 $choice->getName(Month::January); // 'January'
+$choice->isValidName('January'); // true
+$choice->isValidValue(Month::January); // true
 
 ```
 
