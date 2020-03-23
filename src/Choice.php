@@ -15,17 +15,17 @@ class Choice
     /**
      * @var string
      */
-    private string $class;
+    private $class;
 
     /**
      * @var array|string[]
      */
-    private array $names = [];
+    private $names = [];
 
     /**
      * @var array|mixed[]
      */
-    private array $values = [];
+    private $values = [];
 
     /**
      * EnumClassCache constructor.

@@ -9,10 +9,10 @@ use ReflectionException;
 abstract class EnumAbstract
 {
     /** @var ChoiceCache|null */
-    private static ?ChoiceCache $choiceCache = null;
+    private static $choiceCache;
 
     /** @var string */
-    private string $name;
+    private $name;
 
     /** @var mixed */
     private $value;
