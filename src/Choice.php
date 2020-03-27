@@ -5,7 +5,6 @@ namespace Uginroot\PhpEnum;
 
 
 use ReflectionClass;
-use ReflectionException;
 use Uginroot\PhpEnum\Exception\DuplicateValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
@@ -22,16 +21,8 @@ class Choice
      */
     private $names = [];
 
-    /**
-     * @var array|mixed[]
-     */
     private $values = [];
 
-    /**
-     * EnumClassCache constructor.
-     * @param string $class
-     * @throws ReflectionException
-     */
     public function __construct(string $class)
     {
         $this->class = $class;
@@ -59,18 +50,11 @@ class Choice
         return $this->names;
     }
 
-    /**
-     * @return array|mixed[]
-     */
     public function getValues():array
     {
         return $this->values;
     }
 
-    /**
-     * @param $value
-     * @return string
-     */
     public function getName($value):string
     {
         $index = array_search($value, $this->values, true);
@@ -82,10 +66,6 @@ class Choice
         return $this->names[$index];
     }
 
-    /**
-     * @param string $name
-     * @return mixed
-     */
     public function getValue(string $name)
     {
         $index = array_search($name, $this->names, true);
@@ -97,19 +77,11 @@ class Choice
         return $this->values[$index];
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
     public function isValidName(string $name):bool
     {
         return in_array($name, $this->names, true);
     }
 
-    /**
-     * @param $value
-     * @return bool
-     */
     public function isValidValue($value):bool
     {
         return in_array($value, $this->values, true);

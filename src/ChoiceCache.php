@@ -3,9 +3,6 @@
 
 namespace Uginroot\PhpEnum;
 
-
-use ReflectionException;
-
 class ChoiceCache
 {
     /**
@@ -13,11 +10,6 @@ class ChoiceCache
      */
     private $choices = [];
 
-    /**
-     * @param string $class
-     * @return mixed|Choice
-     * @throws ReflectionException
-     */
     public function getChoice(string $class)
     {
         if(!array_key_exists($class, $this->choices)){

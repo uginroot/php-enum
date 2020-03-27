@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Uginroot\PhpEnum\Test;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
 use Uginroot\PhpEnum\Exception\IncorrectValueException;
 use Uginroot\PhpEnum\Exception\IncorrectNameException;
 use Uginroot\PhpEnum\Exception\DuplicateValueException;
@@ -16,36 +15,24 @@ use Uginroot\PhpEnum\Test\Enum\Two;
 
 class EnumTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testIncorrectValue():void
     {
         $this->expectException(IncorrectValueException::class);
         One::createByValue(2);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testIncorrectName():void
     {
         $this->expectException(IncorrectNameException::class);
         One::createByName('two');
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testRedeclareValue():void
     {
         $this->expectException(DuplicateValueException::class);
         Duplicate::getChoice()->getNames();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testCreateByValue():void
     {
         $enum = One::createByValue(One::one);
@@ -54,9 +41,6 @@ class EnumTest extends TestCase
         $this->assertSame('one', $enum->getName());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testCreateByName():void
     {
         $enum = One::createByName('one');
@@ -65,51 +49,33 @@ class EnumTest extends TestCase
         $this->assertSame('one', $enum->getName());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testChoicesName():void
     {
         $expected = ['one', 'two'];
         $this->assertSame($expected, Two::getChoice()->getNames());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testChoicesValue():void
     {
         $expected = [1, 2];
         $this->assertSame($expected, Two::getChoice()->getValues());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testChoiceName():void
     {
         $this->assertSame('one', One::getChoice()->getName(One::one));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testChoiceValue():void
     {
         $this->assertSame(One::one, One::getChoice()->getValue('one'));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testToString():void
     {
         $this->assertSame('one', (string)One::createByValue(One::one));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testIsEqual():void
     {
         $one = new One(One::one);
@@ -125,18 +91,12 @@ class EnumTest extends TestCase
         $this->assertFalse($one->isValue(Two::two));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testIsValidName():void
     {
         $this->assertTrue(One::getChoice()->isValidName('one'));
         $this->assertFalse(One::getChoice()->isValidName('two'));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testIsValidValue():void
     {
         $this->assertTrue(One::getChoice()->isValidValue(One::one));
