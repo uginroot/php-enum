@@ -73,7 +73,20 @@ class EnumTest extends TestCase
 
     public function testToString():void
     {
-        $this->assertSame('one', (string)One::createByValue(One::one));
+        $one = new One(One::one);
+        $this->assertSame('one', $one->__toString());
+    }
+
+    public function testGetName():void
+    {
+        $one = new One(One::one);
+        $this->assertSame('one', $one->getName());
+    }
+
+    public function testGetValue():void
+    {
+        $one = new One(One::one);
+        $this->assertSame(One::one, $one->getValue());
     }
 
     public function testIsEqual():void
@@ -101,5 +114,21 @@ class EnumTest extends TestCase
     {
         $this->assertTrue(One::getChoice()->isValidValue(One::one));
         $this->assertFalse(One::getChoice()->isValidValue(Two::two));
+    }
+
+    public function testSetName():void
+    {
+        $two = new Two(Two::one);
+        $two = $two->setName('two');
+
+        $this->assertSame(Two::two, $two->getValue());
+    }
+
+    public function testSetValue():void
+    {
+        $two = new Two(Two::one);
+        $two = $two->setValue(Two::two);
+
+        $this->assertSame(Two::two, $two->getValue());
     }
 }
