@@ -24,7 +24,6 @@ abstract class EnumAbstract
         return self::$choiceCache->getChoice(static::class);
     }
 
-
     public static function createByValue($value):self
     {
         return new static($value);
@@ -33,6 +32,23 @@ abstract class EnumAbstract
     public static function createByName(string $name): self
     {
         return new static(static::getChoice()->getValue($name));
+    }
+
+    public static function equal(?self $a, ?self $b):bool
+    {
+        if($a === $b){
+            return true;
+        }
+
+        if($a === null || $b === null){
+            return false;
+        }
+
+        if($a->getValue() !== $b->getValue()){
+            return false;
+        }
+
+        return true;
     }
 
     public function __construct($value)

@@ -131,4 +131,13 @@ class EnumTest extends TestCase
 
         $this->assertSame(Two::two, $two->getValue());
     }
+
+    public function testEqual():void
+    {
+        $this->assertTrue(Two::equal(null, null));
+        $this->assertTrue(Two::equal(new Two(Two::one), new Two(Two::one)));
+        $this->assertFalse(Two::equal(new Two(Two::one), null));
+        $this->assertFalse(Two::equal(null, new Two(Two::two)));
+        $this->assertFalse(Two::equal(new Two(Two::one), new Two(Two::two)));
+    }
 }
