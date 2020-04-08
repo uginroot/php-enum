@@ -44,6 +44,10 @@ abstract class EnumAbstract
             return false;
         }
 
+        if(get_class($a) !== get_class($b)){
+            return false;
+        }
+
         if($a->getValue() !== $b->getValue()){
             return false;
         }
