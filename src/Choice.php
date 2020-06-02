@@ -23,6 +23,8 @@ class Choice
 
     private $values = [];
 
+    private $map = [];
+
     public function __construct(string $class)
     {
         $this->class = $class;
@@ -36,6 +38,8 @@ class Choice
             $this->names[] = $constant->getName();
             $this->values[] = $constant->getValue();
         }
+
+        $this->map = array_combine($this->names, $this->values);
 
         if(count(array_unique($this->values)) !== count($this->values)){
             throw new DuplicateValueException("Detect duplicate public constant values in class {$class}");
@@ -68,18 +72,16 @@ class Choice
 
     public function getValue(string $name)
     {
-        $index = array_search($name, $this->names, true);
-
-        if($index === false){
+        if(!array_key_exists($name, $this->map)){
             throw new IncorrectNameException("Incorrect constant '{$name}' in class {$this->class}");
         }
 
-        return $this->values[$index];
+        return $this->map[$name];
     }
 
     public function isValidName(string $name):bool
     {
-        return in_array($name, $this->names, true);
+        return array_key_exists($name, $this->map);
     }
 
     public function isValidValue($value):bool
