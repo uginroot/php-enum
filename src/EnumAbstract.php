@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Uginroot\PhpEnum;
 
+use ReflectionClass;
+use Uginroot\PhpEnum\Exception\IncorrectNameException;
+
 abstract class EnumAbstract
 {
     /** @var ChoiceCache|null */
@@ -24,6 +27,15 @@ abstract class EnumAbstract
         return self::$choiceCache->getChoice(static::class);
     }
 
+    public static function initChoice(): void
+    {
+        if(self::$choiceCache === null){
+            self::$choiceCache = new ChoiceCache();
+        }
+
+        self::$choiceCache->initChoice(static::class);
+    }
+
     public static function createByValue($value):self
     {
         return new static($value);
@@ -31,7 +43,25 @@ abstract class EnumAbstract
 
     public static function createByName(string $name): self
     {
-        return new static(static::getChoice()->getValue($name));
+        $class = new ReflectionClass(static::class);
+        $constant = $class->getReflectionConstant($name);
+
+        if($constant === false || !$constant->isPublic()){
+            throw new IncorrectNameException(
+                sprintf(
+                    'Incorrect constant %s in class %s',
+                    $name,
+                    static::class
+                )
+            );
+        }
+
+        /** @var static $self */
+        $self = $class->newInstanceWithoutConstructor();
+        $self->name = $name;
+        $self->value = $constant->getValue();
+
+        return $self;
     }
 
     public static function equal(?self $a, ?self $b):bool
