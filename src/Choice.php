@@ -23,7 +23,7 @@ class Choice
 
     private $values = [];
 
-    private $map = [];
+    private $map;
 
     public function __construct(string $class)
     {
